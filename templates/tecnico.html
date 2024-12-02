@@ -33,46 +33,44 @@
             <p>El modelo utilizó la función de activación <b>sigmoid</b> en la capa de salida y la función de pérdida <b>binary_crossentropy</b>.</p>
 
             <h2 class="text-2xl font-semibold text-center mt-6">3. Resultados del Entrenamiento</h2>
-            <p>El entrenamiento se realizó durante <b>10 épocas</b> utilizando un optimizador <b>Adam</b> con una tasa de aprendizaje de 0.0001. Aquí están los resultados clave:</p>
+            <p>El entrenamiento se realizó durante <b>130 pasos</b> utilizando un optimizador <b>Adam</b> con una tasa de aprendizaje ajustada. Aquí están los resultados clave:</p>
             <ul class="list-disc list-inside space-y-2">
-                <li><b>Conjunto de Entrenamiento:</b> 192,957 imágenes.</li>
-                <li><b>Conjunto de Validación:</b> 41,348 imágenes.</li>
-                <li><b>Precisión final en Validación:</b> 77.20%.</li>
-                <li><b>Tiempo total de entrenamiento:</b> Aprox. 15 horas (dependiendo de la GPU utilizada).</li>
+                <li><b>Precisión final en entrenamiento:</b> 89.07%.</li>
+                <li><b>Pérdida:</b> 0.2456.</li>
+                <li><b>Tiempo total de entrenamiento:</b> Aprox. 100 segundos por paso.</li>
             </ul>
 
             <h2 class="text-2xl font-semibold text-center mt-6">4. Evaluación del Modelo</h2>
             <p>
-                Para evaluar el modelo, se utilizó un conjunto de prueba independiente compuesto por 41,349 imágenes. Los resultados clave incluyen:
+                Para evaluar el modelo, se utilizó un conjunto de prueba independiente compuesto por 4134 imágenes. Los resultados clave incluyen:
             </p>
             <ul class="list-disc list-inside space-y-2">
-                <li><b>Precisión en prueba:</b> 77%.</li>
+                <li><b>Precisión en prueba:</b> 87%.</li>
                 <li><b>Matriz de confusión:</b></li>
             </ul>
             <div class="bg-white text-black p-4 rounded-lg">
                 <pre>
-[[28446  1100]
- [ 8320  3483]]
+[[2688  266]
+ [ 291  889]]
                 </pre>
             </div>
-            <ul class="list-disc list-inside space-y-2">
-                <li>La clase <b>0 (IDC Negativo)</b> tuvo un recall de 96%, lo que significa que el modelo identificó correctamente la mayoría de los tejidos sanos.</li>
-                <li>La clase <b>1 (IDC Positivo)</b> tuvo un recall de 30%, lo que indica áreas para mejorar en la detección de tejidos con cáncer.</li>
-            </ul>
+            <p>Reporte de clasificación:</p>
+            <div class="bg-white text-black p-4 rounded-lg">
+                <pre>
+              precision    recall  f1-score   support
 
-            <h2 class="text-2xl font-semibold text-center mt-6">5. Visualización de Resultados</h2>
-            <p>
-                Durante el entrenamiento, se monitorearon las curvas de pérdida y precisión para evaluar el desempeño del modelo:
-            </p>
-            <ul class="list-disc list-inside space-y-2">
-                <li><b>La pérdida:</b> Disminuyó gradualmente, mostrando que el modelo aprendió patrones del dataset.</li>
-                <li><b>La precisión:</b> Mejoró con cada época, alcanzando un equilibrio al final del entrenamiento.</li>
-            </ul>
-            <p>Estas gráficas permiten detectar problemas como sobreajuste o falta de aprendizaje en el modelo.</p>
+           0       0.90      0.91      0.91      2954
+           1       0.77      0.75      0.76      1180
 
-            <h2 class="text-2xl font-semibold text-center mt-6">6. Conclusión Técnica</h2>
+    accuracy                           0.87      4134
+   macro avg       0.84      0.83      0.83      4134
+weighted avg       0.86      0.87      0.86      4134
+                </pre>
+            </div>
+
+            <h2 class="text-2xl font-semibold text-center mt-6">5. Conclusión Técnica</h2>
             <p>
-                Este modelo es una herramienta poderosa que puede ayudar a los médicos a identificar rápidamente patrones de cáncer en imágenes de tejido mamario. Aunque los resultados son prometedores, hay margen de mejora, especialmente en la detección de tejidos IDC positivos. El uso de técnicas adicionales como balanceo de clases y redes más profundas podría aumentar la precisión en futuras iteraciones.
+                Este modelo es una herramienta prometedora para identificar patrones de cáncer en imágenes de tejido mamario. Los resultados muestran una precisión del 87%, pero la clase IDC positivo requiere mejoras, como el balanceo de clases o el uso de técnicas más avanzadas en iteraciones futuras.
             </p>
         </div>
 
