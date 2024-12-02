@@ -60,61 +60,69 @@
     </div>
 
     <!-- Script para predicciones -->
-    <script>
-        let model;
+<script>
+    let model;
 
-        // Cargar el modelo al iniciar la página
-        async function loadModel() {
-            model = await tf.loadLayersModel('/static/model.json');
-            console.log("Modelo cargado");
+    // Cargar el modelo al iniciar la página
+    async function loadModel() {
+        model = await tf.loadLayersModel('/static/model.json');
+        console.log("Modelo cargado");
+    }
+
+    loadModel();
+
+    // Función para simular un retraso
+    function delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    // Manejar la subida de imágenes y realizar predicciones
+    document.getElementById('file-upload').addEventListener('change', async (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            // Mostrar el nombre del archivo
+            document.getElementById('result-filename').innerText = file.name;
+
+            // Leer y procesar la imagen
+            const img = new Image();
+            img.src = URL.createObjectURL(file);
+            img.onload = async () => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = 50;
+                canvas.height = 50;
+                ctx.drawImage(img, 0, 0, 50, 50);
+
+                // Convertir la imagen en un tensor
+                const imageData = ctx.getImageData(0, 0, 50, 50);
+                const tensor = tf.browser.fromPixels(imageData)
+                    .toFloat()
+                    .div(tf.scalar(255.0))
+                    .expandDims();
+
+                // Simular un retraso de 3 segundos
+                await delay(4000);
+
+                // Realizar la predicción
+                const prediction = await model.predict(tensor).data();
+
+                // Asignar las probabilidades correctas
+                const normalProb = prediction[0]; // Asumiendo que el modelo devuelve [Normal, IDC]
+                const idcProb = prediction[1];    // Probabilidad de Carcinoma Ductal Invasivo
+
+                // Actualizar resultados en la página
+                document.getElementById('idc-prob').innerText = idcProb.toFixed(6);
+                document.getElementById('normal-prob').innerText = normalProb.toFixed(6);
+
+                // Mostrar imagen procesada
+                document.getElementById('result-image').src = URL.createObjectURL(file);
+
+                // Mostrar contenedor de resultados
+                document.getElementById('result-container').classList.remove('hidden');
+            };
         }
-
-        loadModel();
-
-        // Manejar la subida de imágenes y realizar predicciones
-        document.getElementById('file-upload').addEventListener('change', async (event) => {
-            const file = event.target.files[0];
-            if (file) {
-                // Mostrar el nombre del archivo
-                document.getElementById('result-filename').innerText = file.name;
-
-                // Leer y procesar la imagen
-                const img = new Image();
-                img.src = URL.createObjectURL(file);
-                img.onload = async () => {
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    canvas.width = 50;
-                    canvas.height = 50;
-                    ctx.drawImage(img, 0, 0, 50, 50);
-
-                    // Convertir la imagen en un tensor
-                    const imageData = ctx.getImageData(0, 0, 50, 50);
-                    const tensor = tf.browser.fromPixels(imageData)
-                        .toFloat()
-                        .div(tf.scalar(255.0))
-                        .expandDims();
-
-                    // Realizar la predicción
-                    const prediction = await model.predict(tensor).data();
-
-                    // Asignar las probabilidades correctas
-                    const normalProb = prediction[0]; // Asumiendo que el modelo devuelve [Normal, IDC]
-                    const idcProb = prediction[1];    // Probabilidad de Carcinoma Ductal Invasivo
-
-                    // Actualizar resultados en la página
-                    document.getElementById('idc-prob').innerText = idcProb.toFixed(6);
-                    document.getElementById('normal-prob').innerText = normalProb.toFixed(6);
-
-                    // Mostrar imagen procesada
-                    document.getElementById('result-image').src = URL.createObjectURL(file);
-
-                    // Mostrar contenedor de resultados
-                    document.getElementById('result-container').classList.remove('hidden');
-                };
-            }
-        });
-    </script>
+    });
+</script>
 
 </body>
 </html>
