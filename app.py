@@ -93,5 +93,5 @@ def get_patch():
                 return jsonify({'image_data': img_data, 'file_name': file_name, 'redirect': url_for('index')})
     return jsonify({'error': 'No se encontró la miniimagen.'})
 
-if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+if __name__ == '__main__':  
+    app.run(host="0.0.0.0", port=4000, debug=True)
