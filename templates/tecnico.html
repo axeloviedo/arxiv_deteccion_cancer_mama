@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles Técnicos - Entrenamiento del Modelo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-r from-gray-800 via-gray-700 to-gray-900 text-white">
+    <div class="min-h-screen flex flex-col items-center justify-center py-12 px-4">
+        <h1 class="text-4xl font-bold mb-6 text-center">Detalles Técnicos del Modelo</h1>
+
+        <div class="max-w-4xl text-lg space-y-6 text-justify">
+            <p>
+                El modelo fue entrenado utilizando una arquitectura llamada <b>ResNet50</b>, una red neuronal convolucional (CNN) ampliamente utilizada en tareas de visión por computadora. Esta arquitectura incluye capas avanzadas que ayudan a identificar patrones complejos en imágenes, como texturas y formas características del carcinoma ductal invasivo (IDC).
+            </p>
+
+            <h2 class="text-2xl font-semibold text-center mt-6">1. Preprocesamiento de las Imágenes</h2>
+            <ul class="list-disc list-inside space-y-2">
+                <li>Las imágenes se normalizaron a valores entre 0 y 1.</li>
+                <li>Se aplicaron técnicas de data augmentation como rotación, cambio de escala, desplazamiento y volteo horizontal para mejorar la generalización del modelo.</li>
+            </ul>
+
+            <h2 class="text-2xl font-semibold text-center mt-6">2. Entrenamiento del Modelo</h2>
+            <p>
+                El modelo base de ResNet50 fue cargado con pesos preentrenados en el conjunto de datos ImageNet. Posteriormente, se añadieron capas adicionales para adaptar la red a la tarea de clasificación binaria (IDC positivo y negativo). Las capas añadidas incluyen:
+            </p>
+            <ul class="list-disc list-inside space-y-2">
+                <li><b>GlobalAveragePooling2D:</b> Para reducir la dimensionalidad de las características aprendidas.</li>
+                <li><b>Capa densa (128 unidades, ReLU):</b> Para capturar patrones específicos del dataset.</li>
+                <li><b>Capa de salida (1 unidad, Sigmoid):</b> Para producir una probabilidad de clasificación binaria.</li>
+            </ul>
+            <p>El modelo utilizó la función de activación <b>sigmoid</b> en la capa de salida y la función de pérdida <b>binary_crossentropy</b>.</p>
+
+            <h2 class="text-2xl font-semibold text-center mt-6">3. Resultados del Entrenamiento</h2>
+            <p>El entrenamiento se realizó durante <b>10 épocas</b> utilizando un optimizador <b>Adam</b> con una tasa de aprendizaje de 0.0001. Aquí están los resultados clave:</p>
+            <ul class="list-disc list-inside space-y-2">
+                <li><b>Conjunto de Entrenamiento:</b> 192,957 imágenes.</li>
+                <li><b>Conjunto de Validación:</b> 41,348 imágenes.</li>
+                <li><b>Precisión final en Validación:</b> 77.20%.</li>
+                <li><b>Tiempo total de entrenamiento:</b> Aprox. 15 horas (dependiendo de la GPU utilizada).</li>
+            </ul>
+
+            <h2 class="text-2xl font-semibold text-center mt-6">4. Evaluación del Modelo</h2>
+            <p>
+                Para evaluar el modelo, se utilizó un conjunto de prueba independiente compuesto por 41,349 imágenes. Los resultados clave incluyen:
+            </p>
+            <ul class="list-disc list-inside space-y-2">
+                <li><b>Precisión en prueba:</b> 77%.</li>
+                <li><b>Matriz de confusión:</b></li>
+            </ul>
+            <div class="bg-white text-black p-4 rounded-lg">
+                <pre>
+[[28446  1100]
+ [ 8320  3483]]
+                </pre>
+            </div>
+            <ul class="list-disc list-inside space-y-2">
+                <li>La clase <b>0 (IDC Negativo)</b> tuvo un recall de 96%, lo que significa que el modelo identificó correctamente la mayoría de los tejidos sanos.</li>
+                <li>La clase <b>1 (IDC Positivo)</b> tuvo un recall de 30%, lo que indica áreas para mejorar en la detección de tejidos con cáncer.</li>
+            </ul>
+
+            <h2 class="text-2xl font-semibold text-center mt-6">5. Visualización de Resultados</h2>
+            <p>
+                Durante el entrenamiento, se monitorearon las curvas de pérdida y precisión para evaluar el desempeño del modelo:
+            </p>
+            <ul class="list-disc list-inside space-y-2">
+                <li><b>La pérdida:</b> Disminuyó gradualmente, mostrando que el modelo aprendió patrones del dataset.</li>
+                <li><b>La precisión:</b> Mejoró con cada época, alcanzando un equilibrio al final del entrenamiento.</li>
+            </ul>
+            <p>Estas gráficas permiten detectar problemas como sobreajuste o falta de aprendizaje en el modelo.</p>
+
+            <h2 class="text-2xl font-semibold text-center mt-6">6. Conclusión Técnica</h2>
+            <p>
+                Este modelo es una herramienta poderosa que puede ayudar a los médicos a identificar rápidamente patrones de cáncer en imágenes de tejido mamario. Aunque los resultados son prometedores, hay margen de mejora, especialmente en la detección de tejidos IDC positivos. El uso de técnicas adicionales como balanceo de clases y redes más profundas podría aumentar la precisión en futuras iteraciones.
+            </p>
+        </div>
+
+        <a href="/" class="mt-8 bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300">Volver al Inicio</a>
+    </div>
+</body>
+</html>

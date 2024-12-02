@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reconstrucción de Imágenes</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <h1>Reconstrucción de Imágenes</h1>
+
+    <!-- Lista de IDs -->
+    <select id="id-select">
+        <option value="">Seleccione un ID</option>
+        {% for id in ids %}
+        <option value="{{ id }}">{{ id }}</option>
+        {% endfor %}
+    </select>
+
+    <button id="load-button">Cargar Imagen</button>
+    <button id="toggle-filter">Alternar Filtro</button><br>
+    <br><form action="/" method="get">
+        <button type="submit">Inicio</button>
+    </form>    
+
+    <!-- Contenedor para la grilla -->
+    <div id="grid-container"></div>
+
+    <!-- Popup para miniimagen -->
+    <div id="popup" style="display: none;">
+        <div id="popup-content">
+            <p id="file-name"></p> <!-- Nombre del archivo -->
+            <img id="mini-image" src="" alt="Miniimagen">
+            <!-- Formulario que redirige a la página principal con la imagen seleccionada -->
+            <form id="prediction-form" method="GET" action="/">
+                <input type="hidden" id="selected-file" name="file" value=""> <!-- Ruta completa de la imagen -->
+                <button id="select-button" type="submit" class="bg-green-500 text-white py-2 px-4 rounded-lg">
+                    Analizar Imagen
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    
+    
+    <script src="/static/script.js"></script>
+</body>
+</html>
